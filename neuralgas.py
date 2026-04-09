@@ -131,16 +131,28 @@ class GrowingNeuralGas:
             neuron_f['error'] *= self.alpha
             neuron_r['error'] = neuron_q['error']
 
+    def calculate_total_error(self):
+        total_error = 0
+        for neuron in self.gng.vs:
+            total_error += neuron['error']
+        return total_error
+
     def learn(self):
         # Initialize GNG
         self.initialize_gng()
         # GNG learning iteration
-        for iter, _ in zip(range(0, self.max_iter), tqdm(range(self.max_iter))):
+        pbar = tqdm(total = self.max_iter, unit="iteration")
+        for iter in range(self.max_iter):
             # Track evolution
             self.verts_evolve.append(np.array([neuron['weight'] for neuron in self.gng.vs]))
             self.edges_evolve.append(np.array([(neuron.source + 1, neuron.target + 1) for neuron in self.gng.es]))
             # Learn new posititon
             self.learning_position()
             self.update_neuron()
-            
+
+            error = self.calculate_total_error()
+            pbar.set_description(f"Total Error: {error:.6f}")
+            pbar.update(1)
+        pbar.close()
+
         return self.gng
