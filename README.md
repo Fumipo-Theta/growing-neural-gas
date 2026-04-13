@@ -23,7 +23,20 @@ alpha # multiplying scalar for local error
 beta # multiplying scalar for global error
 ```
 
-## Example of use in 3D reconstruction
+## Setup
 
-- Reconstructing a full human head (with iPhone X and [Standard Cyborg's app](https://www.standardcyborg.com/products)
-![3D Head Image](https://github.com/rendchevi/growing-neural-gas/blob/master/assets/face_gng.png)
+1. Install `uv`
+2. Install python urntime
+    * Run `uv python install`
+3. Install python packages
+    * Run `uv sync`
+
+## Generate GNG from a pointcloud file
+
+* Run the [`main.py`](./main.py) script
+
+  ```sh
+  uv run python main.py ${path_to_pointcloud_file}
+  ```
+
+  * Format of the pointcloud file should be [compatible with reading by Open3D](https://www.open3d.org/docs/release/tutorial/geometry/file_io.html#Point-cloud)
